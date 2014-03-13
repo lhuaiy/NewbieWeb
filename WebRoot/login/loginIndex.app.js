@@ -5,7 +5,7 @@ Ext.require('Ext.field.Text');
 Ext.require('Ext.field.Password');
 Ext.require('Ext.Button');
 Ext.application({
-	name:'loginIndexTwo',
+	name:'loginIndex',
 	launch:function(){
 		var loginForm = Ext.create('Ext.form.Panel',{
 			id:'loginForm',
@@ -18,20 +18,24 @@ Ext.application({
 				xtype:'fieldset',
 				items:[{
 					xtype:'textfield',
-					id:'username',
-					name:'username',
+					id:'userName',
+					name:'userName',
 					label:'用户名:',
 					placeHolder:'请输入用户名',
+					labelWidth:'35%',
+					maxLength: 16,
 					required:true,
-					clearIcon:true
+					clearIcon:false
 				},{
 					xtype:'passwordfield',
 					id:'password',
 					name:'password',
-					label:'密码:',
+					label:'密&nbsp;&nbsp;&nbsp;&nbsp;码:',
+					labelWidth:'35%',
 					placeHolder:'请输入密码',
+					maxLength: 16,
 					required:true,
-					clearIcon:true
+					clearIcon:false
 				},{
 					xtype:'button',
 					id:'login',
@@ -47,6 +51,7 @@ Ext.application({
 					align:'center',
 					pack:'center'
 				},
+				cls:'end_link',
 				items:[{
 					xtype:'panel',
 					html:'<a href="#">找回密码</a>'

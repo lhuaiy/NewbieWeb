@@ -1,0 +1,188 @@
+Ext.require('Ext.form.Panel');
+Ext.require('Ext.form.FieldSet');
+Ext.require('Ext.field.Text');
+Ext.require('Ext.field.Password');
+Ext.require('Ext.data.Store');
+Ext.require('Ext.field.Select');
+Ext.require('Ext.field.Email');
+Ext.application({
+	name:'register',
+	launch:function(){
+		//数据仓库
+		//定义信息级别
+		Ext.define('DataLimit',{
+			extend:'Ext.data.Model',
+			config:{
+				fields:[
+					{name:'key',type:'auto'},
+					{name:'value',type:'auto'}
+				]
+			}
+		});
+		//固定数据仓库（先写死在程序里边）
+		var limitStore = Ext.create('Ext.data.Store',{
+			model:'DataLimit',
+			data:[
+				{value:'0',key:'Public'},
+				{value:'1',key:'Friendly'},
+				{value:'2',key:'Protect'},
+				{value:'3',key:'Private'}
+			]
+		});
+		//数据仓库获得服务器端数据
+		/*var limitStore = Ext.create('Ext.data.Store',{
+			model:'DataLimit',
+			autoLoad:true,
+			autoDestroy:true,
+			proxy:{
+				type:'ajax',
+				url:'',
+				reader:{
+					type:'json'
+				}
+			}
+		});*/
+		var registerBasicForm = Ext.create('Ext.form.Panel',{
+			id:'registerBasicForm',
+			fullscreen:true,
+			layout:{
+					type:'vbox',
+					align:'center',
+					pack:'center'
+			},
+			items:[{
+				xtype:'fieldset',
+				title:'登录信息',
+				items:[{
+					xtype:'panel',
+					layout:'hbox',
+					items:[{
+						flex:5,
+						xtype:'textfield',
+						id:'userName',
+						name:'userName',
+						label:'用户名:',
+						labelWidth:'35%',
+						placeHolder:'请输入用户名',
+						maxLength: 16,
+						required:true,
+						clearIcon:false
+					},{
+						flex:1,
+						xtype:'selectfield',
+						id:'userNameLimit',
+						valueField:'value',
+						displayField:'key',
+						store:limitStore,
+						width:'15%',
+						cls:'end_link'
+					}]
+				},{
+					xtype:'panel',
+					layout:'hbox',
+					items:[{
+						flex:5,
+						xtype:'passwordfield',
+						id:'password',
+						name:'password',
+						label:'密&nbsp;&nbsp;&nbsp;&nbsp;码:',
+						labelWidth:'35%',
+						placeHolder:'请输入密码',
+						maxLength: 16,
+						required:true,
+						clearIcon:false
+					},{
+						flex:1,
+						xtype:'selectfield',
+						id:'passwordLimit',
+						valueField:'value',
+						displayField:'key',
+						store:limitStore,
+						value:3,//密码框的级别默认是private的，并且不能改变
+						disabled:true,
+						width:'15%',
+						cls:'end_link'
+					}]
+				},{
+					xtype:'panel',
+					layout:'hbox',
+					items:[{
+						flex:5,
+						xtype:'emailfield',
+						id:'email',
+						name:'email',
+						label:'邮&nbsp;&nbsp;&nbsp;&nbsp;箱:',
+						labelWidth:'35%',
+						placeHolder:'请输入邮箱',
+						required:true,
+						clearIcon:false
+					},{
+						flex:1,
+						xtype:'selectfield',
+						id:'emailLimit',
+						valueField:'value',
+						displayField:'key',
+						store:limitStore,
+						width:'15%',
+						cls:'end_link'
+					}]
+				},{
+					xtype:'panel',
+					layout:'hbox',
+					items:[{
+						flex:5,
+						xtype:'textfield',
+						id:'realName',
+						name:'realName',
+						label:'姓&nbsp;&nbsp;&nbsp;&nbsp;名:',
+						labelWidth:'35%',
+						placeHolder:'请输入姓名',
+						required:true,
+						clearIcon:false
+					},{
+						flex:1,
+						xtype:'selectfield',
+						id:'realNameLimit',
+						valueField:'value',
+						displayField:'key',
+						store:limitStore,
+						value:0,//姓名（代号）的级别默认是public的，并且不能改变
+						disabled:true,
+						width:'15%',
+						cls:'end_link'
+					}]
+				},{
+					xtype:'button',
+					id:'register',
+					ui:'action',
+					text:'注册'
+				},{
+					xtype:'panel',
+					layout:{
+						type:'hbox',
+						align:'center',
+						pack:'center'
+					},
+					cls:'end_link',
+					items:[{
+						xtype:'panel',
+						html:'<a href="#">关于信息级别</a>'
+					},{
+						xtype:'panel',
+						html:' | '
+					},{
+						xtype:'panel',
+						html:'<a href="#">继续完善信息</a>'
+					},{
+						xtype:'panel',
+						html:' | '
+					},{
+						xtype:'panel',
+						html:'<a href="#">返回登录界面</a>'
+					}]
+				}]
+			}]
+		});
+		Ext.Viewport.add(registerBasicForm);
+	}
+});
